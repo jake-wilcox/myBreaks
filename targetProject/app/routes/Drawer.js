@@ -1,18 +1,16 @@
 import * as React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import HomeStackNavigator from "./HomeStack";
-import SetupStackNavigator from "./SetupStack";
+import HomeStackNavigator from './HomeStack';
 
 const drawer = createDrawerNavigator();
 
-const DrawerNav = () => {
+const DrawerStackNavigator = () =>{
+    return(
 
-    <drawer.Navigator>
-        <drawer.Group>
-            <HomeStackNavigator/>
-            <SetupStackNavigator/>
-        </drawer.Group>
-    </drawer.Navigator>
-
-};
-export default DrawerNav;
+        <drawer.Navigator>
+            <drawer.Screen name='Home' component={HomeStackNavigator}/>
+        </drawer.Navigator>
+    )
+   
+}
+export default DrawerStackNavigator;

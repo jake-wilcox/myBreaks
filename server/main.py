@@ -35,6 +35,8 @@ class AddTM(Resource):
     def post(self):
         args = TM_post_args.parse_args()
         print(args)
+        Classes.addTM(args['name'], args['timeIn'], args['timeOut'], args['lanes'])
+        
 
 
 

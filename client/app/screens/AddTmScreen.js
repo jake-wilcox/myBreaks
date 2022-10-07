@@ -50,7 +50,7 @@ const AddTmScreen = () =>{
             console.log('am or pm not selected')
             return false
         }else{
-            var t = hours + ':' + minutes + ampm
+            var t = hours + ':' + minutes + ' ' + ampm
             console.log(t)
 
             if(timeTitle === 'Time In'){
@@ -67,9 +67,7 @@ const AddTmScreen = () =>{
 
     function handleSubmit(){
         // could do more time exception handeling. if end time < start time
-        const url = `/add/${name}/${timeIn}/${timeOut}/${lanes}`
-        console.log(url)
-
+        
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

@@ -24,7 +24,7 @@ class team_member:
         self.lanes = lanes
         self.time_returned = time_in
 
-        hrs = dt.strptime(time_out, "%H:%M") - dt.strptime(time_in, "%H:%M")
+        hrs = dt.strptime(time_out, "%I:%M %p") - dt.strptime(time_in, "%I:%M %p")
         self.hours = float(hrs.seconds/60/60)
         self.hours_left = self.hours
 
@@ -68,7 +68,7 @@ class team_member:
 
             
 
-        tr = dt.strptime(self.time_returned, '%H:%M')
+        tr = dt.strptime(self.time_returned, "%I:%M %p")
 
         till_nb = self.hours_left / \
             (self.breaks_needed - self.breaks_taken + 1)
@@ -85,8 +85,8 @@ class team_member:
         nb_start = round(nb_start)
         nb_end = round(nb_end)
 
-        break_tupp = (dt.strftime(nb_start, "%H:%M"),
-                      dt.strftime(nb_end, "%H:%M"))
+        break_tupp = (dt.strftime(nb_start, "%I:%M %p"),
+                      dt.strftime(nb_end, "%I:%M %p"))
 
         self.nb = break_tupp
 
@@ -104,8 +104,8 @@ class team_member:
 
         self.breaks_taken = self.breaks_taken + 1
 
-        hrs = dt.strptime(self.time_out, "%H:%M") - \
-            dt.strptime(self.time_returned, '%H:%M')
+        hrs = dt.strptime(self.time_out, "%I:%M %p") - \
+            dt.strptime(self.time_returned, "%I:%M %p")
         self.hours_left = float(hrs.seconds/60/60)
 
         if self.lanes:
@@ -132,12 +132,13 @@ def quick_sort(list_of_dicts):
         last_dict = list_of_dicts.pop()
 
         pivot = last_dict.nb[0]
+        strp_pivot = dt.strptime(last_dict.nb[0], "%I:%M %p")
 
     items_greater = []
     items_lower = []
 
     for dict in list_of_dicts:
-        if dict.nb[0] > pivot:
+        if dt.strptime(dict.nb[0], "%I:%M %p") > strp_pivot:
             items_greater.append(dict)
         else:
             items_lower.append(dict)
@@ -213,11 +214,11 @@ def overlap(bl, ol1, ol2, recur):
     print(ol1.nb)
     print(ol2.nb)
 
-    ol1_start = dt.strptime(ol1.nb[0], "%H:%M")
-    ol1_end = dt.strptime(ol1.nb[1], "%H:%M")
+    ol1_start = dt.strptime(ol1.nb[0], "%I:%M %p")
+    ol1_end = dt.strptime(ol1.nb[1], "%I:%M %p")
 
-    ol2_start = dt.strptime(ol2.nb[0], "%H:%M")
-    ol2_end = dt.strptime(ol2.nb[1], "%H:%M")
+    ol2_start = dt.strptime(ol2.nb[0], "%I:%M %p")
+    ol2_end = dt.strptime(ol2.nb[1], "%I:%M %p")
 
     while ol1_start <= ol2_start and ol2_start < ol1_end or ol1_start < ol2_end and ol2_end <= ol1_end:
         print('Fixing overlap')
@@ -243,10 +244,10 @@ def overlap(bl, ol1, ol2, recur):
 
         recur = recur + 1
 
-        new_ol1_tupp = (dt.strftime(ol1_start, "%H:%M"),
-                        dt.strftime(ol1_end, "%H:%M"))
-        new_ol2_tupp = (dt.strftime(ol2_start, "%H:%M"),
-                        dt.strftime(ol2_end, "%H:%M"))
+        new_ol1_tupp = (dt.strftime(ol1_start, "%I:%M %p"),
+                        dt.strftime(ol1_end, "%I:%M %p"))
+        new_ol2_tupp = (dt.strftime(ol2_start, "%I:%M %p"),
+                        dt.strftime(ol2_end, "%I:%M %p"))
 
         print(f'new tupp: {new_ol1_tupp}')
         print(f'new tupp: {new_ol2_tupp}')
@@ -293,8 +294,11 @@ def loadDefaults():
     ca_breaks.clear()
     sa_breaks.clear()
 
-    jake = team_member('Jake', '10:00', '20:00', False)
-    kyle = team_member('Kyle', '10:00', '20:00', False)
-    marco = team_member('Marco', '10:00', '20:00', False)
-    kaya = team_member('Kaya', '9:00', '16:00', True)
-    loucks = team_member('Loucks', '10:00', '15:00', False)
+    jake = team_member('Jake', '10:00 AM', '8:00 PM', False)
+    kyle = team_member('Kyle', '10:00 AM', '8:00 PM', False)
+    marco = team_member('Marco', '10:00 AM', '8:00 PM', False)
+    kaya = team_member('Kaya', '9:00 AM', '4:00 PM', True)
+    loucks = team_member('Loucks', '10:00 AM', '3:00 PM', False)
+
+def addTM(name, timeIn, timeOut, lanes):
+    tempTM = team_member(name, timeIn, timeOut, lanes)

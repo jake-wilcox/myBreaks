@@ -2,7 +2,7 @@ import * as React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import HomeStackNavigator from './HomeStack';
 import DefaultDataScreen from '../screens/DefaultDataScreen';
-import AddTmScreen from ''
+import AddTmScreen from '../screens/AddTmScreen'
 const drawer = createDrawerNavigator();
 
 const DrawerStackNavigator = () =>{
